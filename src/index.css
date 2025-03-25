@@ -1,0 +1,203 @@
+/* index.css */
+
+/* Nếu bạn đang sử dụng Tailwind, đảm bảo đã cài đặt và cấu hình đúng 
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+*/
+
+/* Reset & cấu hình cơ bản */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  /* Bạn có thể thay đổi ảnh nền tại đây */
+  background: url('/banner.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.app-container {
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+}
+
+/* Tiêu đề chính */
+h1 {
+  /* Bắt buộc trên 1 dòng */
+  white-space: nowrap;
+  font-size: 2.2em; 
+  line-height: 1.1;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  margin: 1rem 0;
+}
+
+/* Khu vực nút quay số, canh giữa, chiều rộng tối đa */
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem auto;
+  width: 100%;
+  max-width: 350px;
+}
+
+/* Nút chung (Quay số, Tải file) */
+button, .file-upload-label {
+  border: none;
+  padding: 0.75em 2em;
+  font-size: 1.1em;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  background-size: 400% 400%;
+  animation: gradient-move 5s ease infinite;
+  color: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  margin-bottom: 1rem;
+}
+
+button:hover, .file-upload-label:hover {
+  transform: scale(1.05);
+}
+
+/* Label cho nút tải file Excel */
+.file-upload-label {
+  background: linear-gradient(270deg, #ff7eb3, #ff758c, #ff7eb3);
+  background-size: 800% 800%;
+  animation: gradient-move 6s ease infinite;
+  margin-bottom: 0;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hiệu ứng nhấp nháy */
+@keyframes blinking {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Class áp dụng hiệu ứng nhấp nháy */
+.blinking-text {
+  animation: blinking 1.2s infinite;
+}
+
+/* Ô hiển thị mã trúng thưởng */
+.draw-container {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem auto;
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.draw-container p {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #fff;
+  margin: 0.5rem 0;
+}
+
+/* Lịch sử trúng thưởng */
+.history {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem auto;
+  color: #fff;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.history h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 1em;
+}
+
+/* Nút upload ẩn/hiện ở góc dưới bên phải */
+.upload-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Arrow toggle không có viền tròn */
+.upload-toggle {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 2em;
+  color: #fff;
+  outline: none;
+}
+
+.upload-inner {
+  margin-top: 0.5rem;
+}
+
+/* Light mode (nếu trình duyệt người dùng ở chế độ sáng) */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  button, .file-upload-label {
+    background-color: #f9f9f9;
+  }
+}
