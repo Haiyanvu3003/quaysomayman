@@ -2,48 +2,42 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
 }
 
 body {
   margin: 0;
   padding: 0;
-  min-width: 320px;
   min-height: 100vh;
-  background: url('/Banner.png') no-repeat center center fixed;
-  background-size: cover;
   overflow: hidden;
-  position: relative;
 }
 
-/* 📦 Giao diện chính – dịch sang phải tổng cộng 180px */
+/* ✅ Ảnh nền responsive không bị crop */
+.background-img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  z-index: -1;
+  background-color: #000;
+}
+
+/* ✅ Khối giao diện cố định bên phải, responsive */
 .app-container {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  right: -170px; /* ✅ dịch thêm 100px nữa */
-  transform: translateY(-50%);
+  left: 760px;
+  transform: translateY(calc(-50% + 60px));
   width: 650px;
-  max-width: 100vw;
+  max-width: 95vw;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-h1 {
-  white-space: nowrap;
-  font-size: 2em;
-  text-align: center;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-  margin: 1rem 0;
-  width: 100%;
+  
 }
 
 .button-group {
@@ -55,28 +49,23 @@ h1 {
   width: 100%;
 }
 
-button,
-.file-upload-label {
-  border: none;
-  padding: 0.75em 2em;
-  font-size: 1.1em;
+.draw-button {
+  background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb);
+  background-size: 300% 300%;
+  animation: gradient-move 6s ease infinite;
+  color: #fff;
   font-weight: 700;
+  border: none;
   border-radius: 50px;
+  padding: 0.75em 2em;
+  font-size: 1.2em;
+  min-width: 220px;
   cursor: pointer;
-  background-size: 400% 400%;
-  animation: gradient-move 5s ease infinite;
-  color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 150px;
-  margin-bottom: 1rem;
 }
 
-button:hover,
-.file-upload-label:hover {
+.draw-button:hover {
   transform: scale(1.05);
 }
 
@@ -85,70 +74,49 @@ button:hover,
   background-size: 800% 800%;
   animation: gradient-move 6s ease infinite;
   margin-bottom: 0;
+  padding: 0.75em 2em;
+  border-radius: 50px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 input[type="file"] {
   display: none;
 }
 
-@keyframes gradient-move {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes blinking {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-.blinking-text {
-  animation: blinking 1.2s infinite;
-}
-
-/* 🟣 Box trúng thưởng */
 .draw-container {
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 12px;
-  padding: 1rem 1.5rem;
-  margin: 1rem 0;
+  padding: 2rem 1.5rem;
+  margin: 1.5rem 0;
   text-align: center;
-  width: 40%;
+  width: 100%;
   max-width: 300px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .draw-container p {
-  font-size: 1.3em;
+  font-size: 1.8em;
   font-weight: 700;
   color: #fff;
   margin: 0.5rem 0;
   text-align: center;
+  line-height: 1.4;
 }
 
-/* Ẩn lịch sử */
-.history {
-  display: none !important;
-}
-
-/* 📁 Upload Container */
 .upload-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* ✅ Mũi tên trắng – nằm dưới box kết quả */
 .upload-toggle {
   background: transparent;
   border: none;
@@ -164,14 +132,44 @@ input[type="file"] {
   margin-top: 0.5rem;
 }
 
-/* Light mode */
+.history {
+  display: none !important;
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes blinking {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(3px); }
+  50% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+.blinking-text {
+  animation: blinking 1.2s infinite;
+}
+
+.running-number {
+  animation: shake 0.15s infinite;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
 
-  button,
+  .draw-button,
   .file-upload-label {
     background-color: #f9f9f9;
   }
