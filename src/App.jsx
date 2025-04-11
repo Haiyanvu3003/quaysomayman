@@ -67,7 +67,7 @@ export default function App() {
 
   return (
     <>
-      <img src="/Banner.png" alt="Background" className="background-img" />
+      
       <div className="app-container">
         <div className="button-group">
           <button
