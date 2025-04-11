@@ -1,12 +1,5 @@
 /* index.css */
 
-/* Nếu bạn đang sử dụng Tailwind, đảm bảo đã cài đặt và cấu hình đúng 
-   @tailwind base;
-   @tailwind components;
-   @tailwind utilities;
-*/
-
-/* Reset & cấu hình cơ bản */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -22,46 +15,48 @@
 
 body {
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  /* Bạn có thể thay đổi ảnh nền tại đây */
   background: url('/Banner.png') no-repeat center center fixed;
   background-size: cover;
   overflow: hidden;
+  position: relative;
 }
 
+/* Container gói toàn bộ giao diện */
 .app-container {
-  width: 90%;
-  max-width: 800px;
-  margin: auto;
-  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 650px;
+  max-width: 100vw;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-/* Tiêu đề chính */
+/* Tiêu đề */
 h1 {
   white-space: nowrap;
-  font-size: 2.2em; 
-  line-height: 1.1;
-  text-align: center;
+  font-size: 2em;
+  text-align: right;
   color: #fff;
   text-shadow: 0 0 10px rgba(0,0,0,0.7);
   margin: 1rem 0;
+  width: 100%;
 }
 
-/* Khu vực nút quay số */
+/* Nhóm nút */
 .button-group {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  margin: 1rem auto;
+  margin: 1rem 0;
   width: 100%;
-  max-width: 350px;
 }
 
 /* Nút chung */
@@ -115,15 +110,15 @@ input[type="file"] {
   animation: blinking 1.2s infinite;
 }
 
-/* Ô hiển thị mã trúng thưởng */
+/* Ô kết quả trúng thưởng - gọn hơn */
 .draw-container {
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 12px;
-  padding: 1rem;
-  margin: 1rem auto;
-  text-align: center;
-  width: 100%;
-  max-width: 350px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  text-align: right;
+  width: 80%;
+  max-width: 400px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
@@ -132,18 +127,20 @@ input[type="file"] {
   font-weight: 700;
   color: #fff;
   margin: 0.5rem 0;
+  text-align: right;
 }
 
-/* Phần lịch sử trúng thưởng (ẩn tạm thời) */
+/* Ẩn lịch sử */
 .history {
   display: none !important;
 }
 
-/* Nút upload Excel ẩn/hiện góc phải */
+/* Upload góc phải sát mép */
 .upload-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
