@@ -99,7 +99,7 @@ export default function App() {
           {showUpload && (
             <div className="upload-inner">
               <label htmlFor="file-upload" className="file-upload-label">
-                📁 Tải file Excel
+                📁 Tải Danh Sách Mã Dự Thưởng
               </label>
               <input
                 type="file"
