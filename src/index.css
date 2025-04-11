@@ -13,6 +13,7 @@ body {
   background: url('/Banner.png') no-repeat center center fixed;
   background-size: contain;
   overflow: hidden;
+  background-color: #000; /* ✅ lớp nền bên dưới ảnh */
 }
 
 .app-container {
