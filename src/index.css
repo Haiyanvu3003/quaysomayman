@@ -1,5 +1,3 @@
-/* index.css */
-
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,43 +22,41 @@ body {
   position: relative;
 }
 
-/* Container gói toàn bộ giao diện */
+/* 📦 Giao diện chính – dịch sang phải tổng cộng 180px */
 .app-container {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: -170px; /* ✅ dịch thêm 100px nữa */
   transform: translateY(-50%);
   width: 650px;
   max-width: 100vw;
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 }
 
-/* Tiêu đề */
 h1 {
   white-space: nowrap;
   font-size: 2em;
-  text-align: right;
+  text-align: center;
   color: #fff;
-  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   margin: 1rem 0;
   width: 100%;
 }
 
-/* Nhóm nút */
 .button-group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
   margin: 1rem 0;
   width: 100%;
 }
 
-/* Nút chung */
-button, .file-upload-label {
+button,
+.file-upload-label {
   border: none;
   padding: 0.75em 2em;
   font-size: 1.1em;
@@ -70,7 +66,7 @@ button, .file-upload-label {
   background-size: 400% 400%;
   animation: gradient-move 5s ease infinite;
   color: white;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s;
   display: inline-flex;
   align-items: center;
@@ -79,7 +75,8 @@ button, .file-upload-label {
   margin-bottom: 1rem;
 }
 
-button:hover, .file-upload-label:hover {
+button:hover,
+.file-upload-label:hover {
   transform: scale(1.05);
 }
 
@@ -95,31 +92,40 @@ input[type="file"] {
 }
 
 @keyframes gradient-move {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-/* Hiệu ứng nhấp nháy */
 @keyframes blinking {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .blinking-text {
   animation: blinking 1.2s infinite;
 }
 
-/* Ô kết quả trúng thưởng - gọn hơn */
+/* 🟣 Box trúng thưởng */
 .draw-container {
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 12px;
   padding: 1rem 1.5rem;
   margin: 1rem 0;
-  text-align: right;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  width: 40%;
+  max-width: 300px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .draw-container p {
@@ -127,7 +133,7 @@ input[type="file"] {
   font-weight: 700;
   color: #fff;
   margin: 0.5rem 0;
-  text-align: right;
+  text-align: center;
 }
 
 /* Ẩn lịch sử */
@@ -135,17 +141,14 @@ input[type="file"] {
   display: none !important;
 }
 
-/* Upload góc phải sát mép */
+/* 📁 Upload Container */
 .upload-container {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  z-index: 999;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 }
 
+/* ✅ Mũi tên trắng – nằm dưới box kết quả */
 .upload-toggle {
   background: transparent;
   border: none;
@@ -154,6 +157,7 @@ input[type="file"] {
   font-size: 2em;
   color: #fff;
   outline: none;
+  margin-top: 30px;
 }
 
 .upload-inner {
@@ -167,7 +171,8 @@ input[type="file"] {
     background-color: #ffffff;
   }
 
-  button, .file-upload-label {
+  button,
+  .file-upload-label {
     background-color: #f9f9f9;
   }
 }
