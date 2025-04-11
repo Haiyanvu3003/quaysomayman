@@ -29,7 +29,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   /* Bạn có thể thay đổi ảnh nền tại đây */
-  background: url('/banner.jpg') no-repeat center center fixed;
+  background: url('/Banner.png') no-repeat center center fixed;
   background-size: cover;
   overflow: hidden;
 }
