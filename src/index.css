@@ -43,7 +43,6 @@ body {
 
 /* Tiêu đề chính */
 h1 {
-  /* Bắt buộc trên 1 dòng */
   white-space: nowrap;
   font-size: 2.2em; 
   line-height: 1.1;
@@ -53,7 +52,7 @@ h1 {
   margin: 1rem 0;
 }
 
-/* Khu vực nút quay số, canh giữa, chiều rộng tối đa */
+/* Khu vực nút quay số */
 .button-group {
   display: flex;
   flex-direction: row;
@@ -65,7 +64,7 @@ h1 {
   max-width: 350px;
 }
 
-/* Nút chung (Quay số, Tải file) */
+/* Nút chung */
 button, .file-upload-label {
   border: none;
   padding: 0.75em 2em;
@@ -89,7 +88,6 @@ button:hover, .file-upload-label:hover {
   transform: scale(1.05);
 }
 
-/* Label cho nút tải file Excel */
 .file-upload-label {
   background: linear-gradient(270deg, #ff7eb3, #ff758c, #ff7eb3);
   background-size: 800% 800%;
@@ -113,7 +111,6 @@ input[type="file"] {
   50% { opacity: 0.4; }
 }
 
-/* Class áp dụng hiệu ứng nhấp nháy */
 .blinking-text {
   animation: blinking 1.2s infinite;
 }
@@ -137,35 +134,12 @@ input[type="file"] {
   margin: 0.5rem 0;
 }
 
-/* Lịch sử trúng thưởng */
+/* Phần lịch sử trúng thưởng (ẩn tạm thời) */
 .history {
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 1rem auto;
-  color: #fff;
-  width: 100%;
-  max-width: 350px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  display: none !important;
 }
 
-.history h3 {
-  margin-top: 0;
-  text-align: center;
-  font-size: 1.2em;
-  font-weight: 700;
-}
-
-.history ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 150px;
-  overflow-y: auto;
-  font-size: 1em;
-}
-
-/* Nút upload ẩn/hiện ở góc dưới bên phải */
+/* Nút upload Excel ẩn/hiện góc phải */
 .upload-container {
   position: fixed;
   bottom: 20px;
@@ -175,7 +149,6 @@ input[type="file"] {
   align-items: flex-end;
 }
 
-/* Arrow toggle không có viền tròn */
 .upload-toggle {
   background: transparent;
   border: none;
@@ -190,7 +163,7 @@ input[type="file"] {
   margin-top: 0.5rem;
 }
 
-/* Light mode (nếu trình duyệt người dùng ở chế độ sáng) */
+/* Light mode */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
