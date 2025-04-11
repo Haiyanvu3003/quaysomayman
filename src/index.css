@@ -13,7 +13,6 @@ body {
   overflow: hidden;
 }
 
-/* ✅ Ảnh nền responsive không bị crop */
 .background-img {
   position: fixed;
   top: 0;
@@ -25,7 +24,6 @@ body {
   background-color: #000;
 }
 
-/* ✅ Khối giao diện cố định bên phải, responsive */
 .app-container {
   position: fixed;
   top: 50%;
@@ -37,7 +35,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
 .button-group {
@@ -53,7 +50,7 @@ body {
   background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb);
   background-size: 300% 300%;
   animation: gradient-move 6s ease infinite;
-  color: #fff;
+  color: #fdd835;
   font-weight: 700;
   border: none;
   border-radius: 50px;
@@ -63,6 +60,8 @@ body {
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
 }
 
 .draw-button:hover {
@@ -95,7 +94,7 @@ input[type="file"] {
   text-align: center;
   width: 100%;
   max-width: 300px;
-  min-height: 30px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,12 +102,13 @@ input[type="file"] {
 }
 
 .draw-container p {
-  font-size: 1.8em;
+  font-size: 1.6em;
   font-weight: 700;
   color: #fff;
-  margin: 0.5rem 0;
+  margin: 0;
   text-align: center;
   line-height: 1.4;
+  word-break: break-word; /* ✅ Cho phép xuống dòng nếu dài */
 }
 
 .upload-container {
@@ -125,7 +125,7 @@ input[type="file"] {
   font-size: 2em;
   color: #fff;
   outline: none;
-  margin-top: 30px;
+  margin-top: 5px;
 }
 
 .upload-inner {
