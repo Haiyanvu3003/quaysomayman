@@ -39,10 +39,10 @@ body {
 }
 
 .draw-button {
-  background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb);
+  background: linear-gradient(90deg, #fff6b7, #fceabb, #f8e66e);
   background-size: 300% 300%;
-  animation: gradient-move 6s ease infinite;
-  color: #fdd835;
+  animation: gradient-move 6s ease infinite, sparkle 2.5s ease-in-out infinite;
+  color: #000;
   font-weight: 700;
   border: none;
   border-radius: 50px;
@@ -50,10 +50,13 @@ body {
   font-size: 1.2em;
   min-width: 220px;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 12px #fceabb;
+  text-shadow: none;
   transition: transform 0.2s;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+
+
+
 
 .draw-button:hover {
   transform: scale(1.05);
@@ -78,7 +81,7 @@ input[type="file"] {
 }
 
 .draw-container {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #fff6b7, #fceabb, #f8e66e);
   border-radius: 12px;
   padding: 2rem 1.5rem;
   margin: 1.5rem 0;
@@ -89,8 +92,10 @@ input[type="file"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px #fceabb;
+  animation: sparkle 2.5s ease-in-out infinite;
 }
+
 
 .draw-container p {
   font-size: 1.6em;
@@ -165,5 +170,13 @@ input[type="file"] {
   .draw-button,
   .file-upload-label {
     background-color: #f9f9f9;
+  }
+}
+@keyframes sparkle {
+  0%, 100% {
+    box-shadow: 0 0 10px #ffd70066;
+  }
+  50% {
+    box-shadow: 0 0 20px #ffd700cc;
   }
 }
