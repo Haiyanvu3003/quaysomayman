@@ -82,9 +82,14 @@ export default function App() {
         <div className="draw-container">
           {displayNumber && (
             <p className={isDrawing ? "running-number" : "blinking-text"}>
-              {isDrawing
-                ? `Đang quay số: ${displayNumber}`
-                : `🎊 Mã trúng thưởng: ${displayNumber} 🎊`}
+               {isDrawing ? (
+    `Đang quay số: ${displayNumber}`
+  ) : (
+    <>
+      Mã trúng thưởng:<br />
+      🎊 {displayNumber} 🎊
+    </>
+  )}
             </p>
           )}
         </div>
