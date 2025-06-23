@@ -19,7 +19,7 @@ body {
 .app-container {
   position: absolute;
   top: 50%;
-  left: calc(80%); /* bắt đầu 1/3 bên phải */
+  left: calc(74%); /* bắt đầu 1/3 bên phải */
   transform: translate(-50%, -50%); /* căn giữa khối trong vùng đó */
   width: 650px;
   max-width: 95vw;
