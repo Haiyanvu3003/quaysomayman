@@ -33,10 +33,10 @@ export default function App() {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-      const codeList = jsonData.map((row) => row.Code).filter(Boolean);
-      
+      const codeList = jsonData.map((row) => String(row.Code).trim()).filter(Boolean);
+
       setCodes(codeList);
-      setHistory([]); // ✅ Reset lại lịch sử sau khi upload danh sách mới
+      setHistory([]); // ✅ Reset lại lịch sử mỗi lần upload mới
     };
 
     if (file) {
@@ -50,36 +50,37 @@ export default function App() {
       return;
     }
 
+    const currentCodes = [...codes]; // ✅ Snapshot danh sách hiện tại
+
     setIsDrawing(true);
     let elapsed = 0;
     const intervalDuration = 100;
+
     const interval = setInterval(() => {
       elapsed += intervalDuration;
-      const randomIndex = Math.floor(Math.random() * codes.length);
-      setDisplayNumber(codes[randomIndex]);
+      const randomIndex = Math.floor(Math.random() * currentCodes.length);
+      setDisplayNumber(currentCodes[randomIndex]);
 
       if (elapsed >= 5000) {
         clearInterval(interval);
 
         let selectedWinner;
 
-        // ✅ Ưu tiên chọn từ danh sách mã cố định
+        // ✅ Ưu tiên mã cố định nếu có
         const winnerFromFixed = fixedWinners.find((code) =>
-          codes.includes(code)
+          currentCodes.includes(code)
         );
 
         if (winnerFromFixed) {
           selectedWinner = winnerFromFixed;
         } else {
-          const randomFinalIndex = Math.floor(Math.random() * codes.length);
-          selectedWinner = codes[randomFinalIndex];
+          const randomFinalIndex = Math.floor(Math.random() * currentCodes.length);
+          selectedWinner = currentCodes[randomFinalIndex];
         }
 
         setDisplayNumber(selectedWinner);
         setHistory((prev) => [...prev, selectedWinner]);
         setCodes((prev) => prev.filter((code) => code !== selectedWinner));
-
-        // ❌ Không xóa khỏi fixedWinners → để mỗi lần upload mới vẫn ưu tiên
         setIsDrawing(false);
       }
     }, intervalDuration);
