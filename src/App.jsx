@@ -3,7 +3,7 @@ import * as XLSX from "xlsx";
 import "./index.css";
 
 // ✅ Danh sách mã trúng thưởng cố định (ưu tiên)
-const fixedWinners = ["242"];
+const fixedWinners = ["242","001"];
 
 export default function App() {
   const [codes, setCodes] = useState([]);
