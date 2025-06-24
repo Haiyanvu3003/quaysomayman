@@ -3,7 +3,7 @@ import * as XLSX from "xlsx";
 import "./index.css";
 
 // ✅ Danh sách mã trúng thưởng cố định (ưu tiên)
-const fixedWinners = ["242","001"];
+const fixedWinners = ["242"];
 
 export default function App() {
   const [codes, setCodes] = useState([]);
@@ -34,7 +34,9 @@ export default function App() {
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
       const codeList = jsonData.map((row) => row.Code).filter(Boolean);
+      
       setCodes(codeList);
+      setHistory([]); // ✅ Reset lại lịch sử sau khi upload danh sách mới
     };
 
     if (file) {
@@ -61,8 +63,11 @@ export default function App() {
 
         let selectedWinner;
 
-        // ✅ Nếu còn mã trong danh sách cố định thì dùng trước
-        const winnerFromFixed = fixedWinners.find((code) => codes.includes(code));
+        // ✅ Ưu tiên chọn từ danh sách mã cố định
+        const winnerFromFixed = fixedWinners.find((code) =>
+          codes.includes(code)
+        );
+
         if (winnerFromFixed) {
           selectedWinner = winnerFromFixed;
         } else {
@@ -74,12 +79,7 @@ export default function App() {
         setHistory((prev) => [...prev, selectedWinner]);
         setCodes((prev) => prev.filter((code) => code !== selectedWinner));
 
-        // ✅ Loại khỏi danh sách cố định nếu vừa dùng
-        const fixedIndex = fixedWinners.indexOf(selectedWinner);
-        if (fixedIndex !== -1) {
-          fixedWinners.splice(fixedIndex, 1);
-        }
-
+        // ❌ Không xóa khỏi fixedWinners → để mỗi lần upload mới vẫn ưu tiên
         setIsDrawing(false);
       }
     }, intervalDuration);
@@ -98,16 +98,22 @@ export default function App() {
           </button>
         </div>
 
-       <div className="draw-container">
-  {displayNumber && (
-    <div className="draw-inner">
-      <p className="draw-title">Mã trúng thưởng:</p>
-      <p className={isDrawing ? "running-number draw-code" : "blinking-text draw-code"}>
-        🎊 {displayNumber} 🎊
-      </p>
-    </div>
-  )}
-</div>
+        <div className="draw-container">
+          {displayNumber && (
+            <div className="draw-inner">
+              <p className="draw-title">Mã trúng thưởng:</p>
+              <p
+                className={
+                  isDrawing
+                    ? "running-number draw-code"
+                    : "blinking-text draw-code"
+                }
+              >
+                🎊 {displayNumber} 🎊
+              </p>
+            </div>
+          )}
+        </div>
 
         <div className="upload-container">
           <button
