@@ -2,85 +2,107 @@ import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import "./index.css";
 
-// ✅ Danh sách mã trúng thưởng cố định (ưu tiên)
-const fixedWinners = ["242"];
-
 export default function App() {
-  const [codes, setCodes] = useState([]);
+  const [codes, setCodes] = useState([]); // [{ code: "A", quantity: 10, probability: 20 }]
   const [displayNumber, setDisplayNumber] = useState("");
   const [history, setHistory] = useState([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
 
+  // Load từ localStorage
   useEffect(() => {
     const storedHistory = localStorage.getItem("history");
-    if (storedHistory) {
-      setHistory(JSON.parse(storedHistory));
-    }
+    const storedCodes = localStorage.getItem("codes");
+    if (storedHistory) setHistory(JSON.parse(storedHistory));
+    if (storedCodes) setCodes(JSON.parse(storedCodes));
   }, []);
 
+  // Lưu khi thay đổi
   useEffect(() => {
     localStorage.setItem("history", JSON.stringify(history));
   }, [history]);
 
+  useEffect(() => {
+    localStorage.setItem("codes", JSON.stringify(codes));
+  }, [codes]);
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: "array" });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-      const codeList = jsonData.map((row) => String(row.Code).trim()).filter(Boolean);
 
-      setCodes(codeList);
-      setHistory([]); // ✅ Reset lại lịch sử mỗi lần upload mới
+      const newCodes = [];
+      jsonData.forEach((row) => {
+        const code = row.Code;
+        const quantity = Number(row.Quantity);
+        const probability = Number(row.Probability);
+        if (code && quantity > 0 && probability > 0) {
+          newCodes.push({ code, quantity, probability });
+        }
+      });
+
+      setCodes(newCodes);
+      setHistory([]); // Reset khi upload file mới
     };
 
-    if (file) {
-      reader.readAsArrayBuffer(file);
+    if (file) reader.readAsArrayBuffer(file);
+  };
+
+  const pickWinner = () => {
+    // Bỏ các mã hết quantity
+    const available = codes.filter((item) => item.quantity > 0);
+    if (available.length === 0) return null;
+
+    // Tính tổng trọng số
+    const totalProb = available.reduce((sum, item) => sum + item.probability, 0);
+
+    const rand = Math.random() * totalProb;
+    let cumulative = 0;
+    for (const item of available) {
+      cumulative += item.probability;
+      if (rand <= cumulative) {
+        return item.code;
+      }
     }
+    // fallback
+    return available[available.length - 1].code;
   };
 
   const handleDraw = () => {
-    if (codes.length === 0) {
-      alert("Danh sách mã dự thưởng đã hết hoặc chưa được tải lên!");
+    if (codes.filter((c) => c.quantity > 0).length === 0) {
+      alert("Danh sách mã đã hết hoặc chưa upload!");
       return;
     }
-
-    const currentCodes = [...codes]; // ✅ Snapshot danh sách hiện tại
 
     setIsDrawing(true);
     let elapsed = 0;
     const intervalDuration = 100;
-
     const interval = setInterval(() => {
       elapsed += intervalDuration;
-      const randomIndex = Math.floor(Math.random() * currentCodes.length);
-      setDisplayNumber(currentCodes[randomIndex]);
+      const sample = pickWinner() || "";
+      setDisplayNumber(sample);
 
       if (elapsed >= 5000) {
         clearInterval(interval);
 
-        let selectedWinner;
-
-        // ✅ Ưu tiên mã cố định nếu có
-        const winnerFromFixed = fixedWinners.find((code) =>
-          currentCodes.includes(code)
-        );
-
-        if (winnerFromFixed) {
-          selectedWinner = winnerFromFixed;
-        } else {
-          const randomFinalIndex = Math.floor(Math.random() * currentCodes.length);
-          selectedWinner = currentCodes[randomFinalIndex];
+        const winner = pickWinner();
+        if (winner) {
+          setDisplayNumber(winner);
+          setHistory((prev) => [...prev, winner]);
+          setCodes((prev) =>
+            prev.map((item) =>
+              item.code === winner
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+            )
+          );
         }
 
-        setDisplayNumber(selectedWinner);
-        setHistory((prev) => [...prev, selectedWinner]);
-        setCodes((prev) => prev.filter((code) => code !== selectedWinner));
         setIsDrawing(false);
       }
     }, intervalDuration);
