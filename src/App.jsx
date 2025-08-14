@@ -3,13 +3,13 @@ import * as XLSX from "xlsx";
 import "./index.css";
 
 export default function App() {
-  const [codes, setCodes] = useState([]); // [{ code: "A", quantity: 10, probability: 20 }]
+  const [codes, setCodes] = useState([]);
   const [displayNumber, setDisplayNumber] = useState("");
   const [history, setHistory] = useState([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
 
-  // Load từ localStorage
+  // Load lịch sử khi mở trang
   useEffect(() => {
     const storedHistory = localStorage.getItem("history");
     const storedCodes = localStorage.getItem("codes");
@@ -26,9 +26,11 @@ export default function App() {
     localStorage.setItem("codes", JSON.stringify(codes));
   }, [codes]);
 
+  // Upload file Excel
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: "array" });
@@ -36,72 +38,43 @@ export default function App() {
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-      const newCodes = [];
-      jsonData.forEach((row) => {
-        const code = row.Code;
-        const quantity = Number(row.Quantity);
-        const probability = Number(row.Probability);
-        if (code && quantity > 0 && probability > 0) {
-          newCodes.push({ code, quantity, probability });
-        }
-      });
+      // Lấy cột "Code" từ file
+      const codeList = jsonData.map((row) => row.Code).filter(Boolean);
 
-      setCodes(newCodes);
-      setHistory([]); // Reset khi upload file mới
+      setCodes(codeList);
+      setHistory([]); // reset lịch sử khi upload mới
     };
 
-    if (file) reader.readAsArrayBuffer(file);
-  };
-
-  const pickWinner = () => {
-    // Bỏ các mã hết quantity
-    const available = codes.filter((item) => item.quantity > 0);
-    if (available.length === 0) return null;
-
-    // Tính tổng trọng số
-    const totalProb = available.reduce((sum, item) => sum + item.probability, 0);
-
-    const rand = Math.random() * totalProb;
-    let cumulative = 0;
-    for (const item of available) {
-      cumulative += item.probability;
-      if (rand <= cumulative) {
-        return item.code;
-      }
+    if (file) {
+      reader.readAsArrayBuffer(file);
     }
-    // fallback
-    return available[available.length - 1].code;
   };
 
+  // Quay số
   const handleDraw = () => {
-    if (codes.filter((c) => c.quantity > 0).length === 0) {
-      alert("Danh sách mã đã hết hoặc chưa upload!");
+    if (codes.length === 0) {
+      alert("Danh sách mã dự thưởng đã hết hoặc chưa được tải lên!");
       return;
     }
 
     setIsDrawing(true);
     let elapsed = 0;
     const intervalDuration = 100;
+
     const interval = setInterval(() => {
       elapsed += intervalDuration;
-      const sample = pickWinner() || "";
-      setDisplayNumber(sample);
+      const randomIndex = Math.floor(Math.random() * codes.length);
+      setDisplayNumber(codes[randomIndex]);
 
       if (elapsed >= 5000) {
         clearInterval(interval);
 
-        const winner = pickWinner();
-        if (winner) {
-          setDisplayNumber(winner);
-          setHistory((prev) => [...prev, winner]);
-          setCodes((prev) =>
-            prev.map((item) =>
-              item.code === winner
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
-            )
-          );
-        }
+        const randomFinalIndex = Math.floor(Math.random() * codes.length);
+        const selectedWinner = codes[randomFinalIndex];
+
+        setDisplayNumber(selectedWinner);
+        setHistory((prev) => [...prev, selectedWinner]);
+        setCodes((prev) => prev.filter((code) => code !== selectedWinner));
 
         setIsDrawing(false);
       }
@@ -121,6 +94,7 @@ export default function App() {
           </button>
         </div>
 
+        {/* Hiển thị kết quả */}
         <div className="draw-container">
           {displayNumber && (
             <div className="draw-inner">
@@ -138,6 +112,7 @@ export default function App() {
           )}
         </div>
 
+        {/* Upload file */}
         <div className="upload-container">
           <button
             className="upload-toggle"
